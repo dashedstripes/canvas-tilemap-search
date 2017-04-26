@@ -215,11 +215,11 @@ class Map {
     let map = []
     this.width = 0
 
-    for(let i = 0; i < 60; i++) {
+    for(let i = 0; i < 100; i++) {
       let row = []
       this.width += 17
       this.height = 0
-      for(let j = 0; j < 60; j++) {
+      for(let j = 0; j < 100; j++) {
         let color = ''
         if(i % 2 && j % 2) {
           color = '#2ecc71'
