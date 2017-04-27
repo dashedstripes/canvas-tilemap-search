@@ -37,16 +37,16 @@ class Game {
     document.addEventListener('keydown', (e) => {
       switch(e.key) {
         case 'a':
-          this.map.vx = -this.map.speed
-          break
-        case 'd':
           this.map.vx = this.map.speed
           break
+        case 'd':
+          this.map.vx = -this.map.speed
+          break
         case 's':
-          this.map.vy = this.map.speed
+          this.map.vy = -this.map.speed
           break
         case 'w':
-          this.map.vy = -this.map.speed
+          this.map.vy = this.map.speed
           break
       }
     })
@@ -66,6 +66,19 @@ class Game {
           this.map.vy = 0
           break
       }
+    })
+
+    this.canvas.addEventListener('mousemove', (e) => {
+      let xPos = e.clientX
+      let yPos = e.clientY
+
+      let viewportOffset = this.canvas.getBoundingClientRect()
+
+      this.map.getTile({
+        x: e.clientX - viewportOffset.left,
+        y: e.clientY - viewportOffset.top
+      })
+
     })
   }
 

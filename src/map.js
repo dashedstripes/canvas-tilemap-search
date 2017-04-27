@@ -9,31 +9,29 @@ class Map {
     this.width = this.height = 0
     this.rows = this.cols = 100
 
+    this.tileWidth = 16
+
     this.tiles = [
       {
         name: 'grass',
-        tile: new Tile(this.context, '#27ae60')
+        color: '#27ae60'
       },
       {
         name: 'grass2',
-        tile: new Tile(this.context, '#2ecc71')
+        color: '#3FC380'
       },
       {
         name: 'grass3',
-        tile: new Tile(this.context, '#00B16A')
-      },
-      {
-        name: 'grass4',
-        tile: new Tile(this.context, '#26C281')
+        color: '#019875'
       }
     ]
 
     this.map = this.createMap()
 
     if(this.map != null && this.map.length > 0) {
-      this.height += this.map.length * (this.tiles[0].tile.height + 1)
+      this.height += this.map.length * (this.tileWidth + 1)
       if(this.map[0] != null && this.map[0].length > 0) {
-        this.width += this.map[0].length * (this.tiles[0].tile.width + 1)
+        this.width += this.map[0].length * (this.tileWidth + 1)
       }
     }
   }
@@ -43,7 +41,11 @@ class Map {
     for(let i = 0; i < this.rows; i++) {
       let row = []
       for(let j = 0; j < this.cols; j++) {
-        row.push(this.tiles[Math.floor(Math.random() * this.tiles.length)].tile)
+        let chosenTile = this.tiles[Math.floor(Math.random() * this.tiles.length)]
+        let tile = new Tile(this.context, chosenTile.name, chosenTile.color)
+        tile.y = i
+        tile.x = j
+        row.push(tile)
       }
       map.push(row)
     }
@@ -73,6 +75,11 @@ class Map {
         column.draw(this.x + (j * (column.width + 1)), this.y + (i * (column.height + 1)))
       })
     })
+  }
+
+  getTile(pos) {
+    let x = pos.x
+    let y = pos.y
   }
 
 }

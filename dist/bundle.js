@@ -109,16 +109,16 @@ class Game {
     document.addEventListener('keydown', (e) => {
       switch(e.key) {
         case 'a':
-          this.map.vx = -this.map.speed
-          break
-        case 'd':
           this.map.vx = this.map.speed
           break
+        case 'd':
+          this.map.vx = -this.map.speed
+          break
         case 's':
-          this.map.vy = this.map.speed
+          this.map.vy = -this.map.speed
           break
         case 'w':
-          this.map.vy = -this.map.speed
+          this.map.vy = this.map.speed
           break
       }
     })
@@ -138,6 +138,19 @@ class Game {
           this.map.vy = 0
           break
       }
+    })
+
+    this.canvas.addEventListener('mousemove', (e) => {
+      let xPos = e.clientX
+      let yPos = e.clientY
+
+      let viewportOffset = this.canvas.getBoundingClientRect()
+
+      this.map.getTile({
+        x: e.clientX - viewportOffset.left,
+        y: e.clientY - viewportOffset.top
+      })
+
     })
   }
 
@@ -188,31 +201,29 @@ class Map {
     this.width = this.height = 0
     this.rows = this.cols = 100
 
+    this.tileWidth = 16
+
     this.tiles = [
       {
         name: 'grass',
-        tile: new Tile(this.context, '#27ae60')
+        color: '#27ae60'
       },
       {
         name: 'grass2',
-        tile: new Tile(this.context, '#2ecc71')
+        color: '#3FC380'
       },
       {
         name: 'grass3',
-        tile: new Tile(this.context, '#00B16A')
-      },
-      {
-        name: 'grass4',
-        tile: new Tile(this.context, '#26C281')
+        color: '#019875'
       }
     ]
 
     this.map = this.createMap()
 
     if(this.map != null && this.map.length > 0) {
-      this.height += this.map.length * (this.tiles[0].tile.height + 1)
+      this.height += this.map.length * (this.tileWidth + 1)
       if(this.map[0] != null && this.map[0].length > 0) {
-        this.width += this.map[0].length * (this.tiles[0].tile.width + 1)
+        this.width += this.map[0].length * (this.tileWidth + 1)
       }
     }
   }
@@ -222,7 +233,11 @@ class Map {
     for(let i = 0; i < this.rows; i++) {
       let row = []
       for(let j = 0; j < this.cols; j++) {
-        row.push(this.tiles[Math.floor(Math.random() * this.tiles.length)].tile)
+        let chosenTile = this.tiles[Math.floor(Math.random() * this.tiles.length)]
+        let tile = new Tile(this.context, chosenTile.name, chosenTile.color)
+        tile.y = i
+        tile.x = j
+        row.push(tile)
       }
       map.push(row)
     }
@@ -254,6 +269,11 @@ class Map {
     })
   }
 
+  getTile(pos) {
+    let x = pos.x
+    let y = pos.y
+  }
+
 }
 
 module.exports = Map
@@ -263,10 +283,12 @@ module.exports = Map
 /***/ (function(module, exports) {
 
 class Tile {
-  constructor(context, color) {
+  constructor(context, name, color) {
+    this.name = name
     this.context = context
     this.color = color
     this.width = this.height = 16
+    this.x = this.y = 0
   }
 
   draw(x, y) {
