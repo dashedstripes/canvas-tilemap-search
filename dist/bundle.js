@@ -218,6 +218,10 @@ class Map {
       {
         name: 'wet_grass',
         color: '#1E824C'
+      },
+      {
+        name: 'water',
+        color: '#81CFE0'
       }
     ]
 
@@ -279,9 +283,9 @@ class Map {
     for(let i = 0; i < this.map.length; i++) {
       for(let j = 0; j < this.map[i].length; j++) {
         let currentTile = this.map[i][j]
-        if(x >= currentTile.x && 
+        if(x >= currentTile.x - 1 && 
            x <= currentTile.x + currentTile.width &&
-           y >= currentTile.y &&
+           y >= currentTile.y - 1 &&
            y <= currentTile.y + currentTile.height) {
              return currentTile.name
            }
