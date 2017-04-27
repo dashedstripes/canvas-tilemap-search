@@ -109,16 +109,16 @@ class Game {
     document.addEventListener('keydown', (e) => {
       switch(e.key) {
         case 'a':
-          this.map.vx = this.map.speed
-          break
-        case 'd':
           this.map.vx = -this.map.speed
           break
+        case 'd':
+          this.map.vx = this.map.speed
+          break
         case 's':
-          this.map.vy = -this.map.speed
+          this.map.vy = this.map.speed
           break
         case 'w':
-          this.map.vy = this.map.speed
+          this.map.vy = -this.map.speed
           break
       }
     })
@@ -185,8 +185,34 @@ class Map {
     this.speed = 3
     this.x = this.y = 1
     this.vx = this.vy = 0
-    this.width = 0
-    this.height = 0
+    this.width = this.height = 0
+    this.rows = 40
+    this.cols = 60
+
+    this.tiles = {
+      grass: new Tile(this.context, '#2ecc71')
+    }
+
+    this.map = this.createMap()
+
+    if(this.map != null && this.map.length > 0) {
+      this.height += this.map.length * (this.tiles.grass.height + 1)
+      if(this.map[0] != null && this.map[0].length > 0) {
+        this.width += this.map[0].length * (this.tiles.grass.width + 1)
+      }
+    }
+  }
+
+  createMap() {
+    let map = []
+    for(let i = 0; i < this.rows; i++) {
+      let row = []
+      for(let j = 0; j < this.cols; j++) {
+        row.push(this.tiles.grass)
+      }
+      map.push(row)
+    }
+    return map
   }
 
   update() {
@@ -197,12 +223,12 @@ class Map {
       this.x = 1
     }
 
-    if(this.x <= -(this.width - this.context.canvas.width)) {
-      this.x = -(this.width - this.context.canvas.width)
-    }
-
     if(this.y >= 1) {
       this.y = 1
+    }
+
+    if(this.x <= -(this.width - this.context.canvas.width)) {
+      this.x = -(this.width - this.context.canvas.width)
     }
 
     if(this.y <= -(this.height - this.context.canvas.height)) {
@@ -212,32 +238,13 @@ class Map {
   }
 
   draw() {
-    let map = []
-    this.width = 0
-
-    for(let i = 0; i < 100; i++) {
-      let row = []
-      this.width += 17
-      this.height = 0
-      for(let j = 0; j < 100; j++) {
-        let color = ''
-        if(i % 2 && j % 2) {
-          color = '#2ecc71'
-        }else {
-          color = '#27ae60'
-        }
-        row.push(new Tile(this.context, this.x + (i * 17), this.y + (j * 17), color))
-        this.height += 17
-      }
-      map.push(row)
-    }
-
-    map.forEach((row) => {
-      row.forEach((tile) => {
-        tile.draw()
+    this.map.forEach((row, i) => {
+      row.forEach((column, j) => {
+        column.draw(this.x + (j * (column.width + 1)), this.y + (i * (column.height + 1)))
       })
     })
   }
+
 }
 
 module.exports = Map
@@ -247,17 +254,15 @@ module.exports = Map
 /***/ (function(module, exports) {
 
 class Tile {
-  constructor(context, x, y, color) {
+  constructor(context, color) {
     this.context = context
-    this.x = x
-    this.y = y
     this.color = color
     this.width = this.height = 16
   }
 
-  draw() {
+  draw(x, y) {
     this.context.fillStyle = this.color
-    this.context.fillRect(this.x, this.y, this.width, this.height)
+    this.context.fillRect(x, y, this.width, this.height)
   }
 }
 

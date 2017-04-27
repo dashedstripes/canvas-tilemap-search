@@ -37,16 +37,16 @@ class Game {
     document.addEventListener('keydown', (e) => {
       switch(e.key) {
         case 'a':
-          this.map.vx = this.map.speed
-          break
-        case 'd':
           this.map.vx = -this.map.speed
           break
+        case 'd':
+          this.map.vx = this.map.speed
+          break
         case 's':
-          this.map.vy = -this.map.speed
+          this.map.vy = this.map.speed
           break
         case 'w':
-          this.map.vy = this.map.speed
+          this.map.vy = -this.map.speed
           break
       }
     })
