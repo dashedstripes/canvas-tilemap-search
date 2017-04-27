@@ -327,7 +327,7 @@ class Info {
 
   draw() {
     this.context.fillStyle = '#ffffff'
-    this.context.font = "18px Helvetica";
+    this.context.font = "18px Open Sans";
     this.context.fillText(this.text, this.context.canvas.width - (this.context.measureText(this.text).width + 20), 30)
   }
 }
