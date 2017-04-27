@@ -13,16 +13,16 @@ class Map {
 
     this.tiles = [
       {
-        name: 'grass',
-        color: '#27ae60'
+        name: 'red',
+        color: 'red'
       },
       {
-        name: 'grass2',
-        color: '#3FC380'
+        name: 'green',
+        color: 'green'
       },
       {
-        name: 'grass3',
-        color: '#019875'
+        name: 'yellow',
+        color: 'yellow'
       }
     ]
 
@@ -43,8 +43,8 @@ class Map {
       for(let j = 0; j < this.cols; j++) {
         let chosenTile = this.tiles[Math.floor(Math.random() * this.tiles.length)]
         let tile = new Tile(this.context, chosenTile.name, chosenTile.color)
-        tile.y = i
-        tile.x = j
+        tile.x = j * (tile.width + 1)
+        tile.y = i * (tile.height + 1)
         row.push(tile)
       }
       map.push(row)
@@ -77,9 +77,19 @@ class Map {
     })
   }
 
-  getTile(pos) {
-    let x = pos.x
-    let y = pos.y
+  getTile(x, y) {
+    for(let i = 0; i < this.map.length; i++) {
+      for(let j = 0; j < this.map[i].length; j++) {
+        let currentTile = this.map[i][j]
+        if(x >= currentTile.x && 
+           x <= currentTile.x + currentTile.width &&
+           y >= currentTile.y &&
+           y <= currentTile.y + currentTile.height) {
+             console.log(currentTile.name)
+             break
+           }
+      }
+    }
   }
 
 }

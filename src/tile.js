@@ -11,6 +11,7 @@ class Tile {
     this.context.fillStyle = this.color
     this.context.fillRect(x, y, this.width, this.height)
   }
+
 }
 
 module.exports = Tile

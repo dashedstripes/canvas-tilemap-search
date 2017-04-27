@@ -72,13 +72,8 @@ class Game {
       let xPos = e.clientX
       let yPos = e.clientY
 
-      let viewportOffset = this.canvas.getBoundingClientRect()
-
-      this.map.getTile({
-        x: e.clientX - viewportOffset.left,
-        y: e.clientY - viewportOffset.top
-      })
-
+      let canvasOffset = this.canvas.getBoundingClientRect()
+      this.map.getTile(xPos - canvasOffset.left, yPos - canvasOffset.top)
     })
   }
 
