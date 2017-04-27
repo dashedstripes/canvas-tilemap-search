@@ -145,7 +145,10 @@ class Game {
       let yPos = e.clientY
 
       let canvasOffset = this.canvas.getBoundingClientRect()
-      this.map.getTile(xPos - canvasOffset.left, yPos - canvasOffset.top)
+      this.map.getTile({
+        x: (xPos - canvasOffset.left) - this.map.x,
+        y: (yPos - canvasOffset.top) - this.map.y
+      })
     })
   }
 
@@ -264,7 +267,10 @@ class Map {
     })
   }
 
-  getTile(x, y) {
+  getTile(m) {
+    let x = m.x
+    let y = m.y
+    
     for(let i = 0; i < this.map.length; i++) {
       for(let j = 0; j < this.map[i].length; j++) {
         let currentTile = this.map[i][j]

@@ -77,7 +77,10 @@ class Map {
     })
   }
 
-  getTile(x, y) {
+  getTile(m) {
+    let x = m.x
+    let y = m.y
+    
     for(let i = 0; i < this.map.length; i++) {
       for(let j = 0; j < this.map[i].length; j++) {
         let currentTile = this.map[i][j]
