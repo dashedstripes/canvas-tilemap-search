@@ -13,16 +13,16 @@ class Map {
 
     this.tiles = [
       {
-        name: 'red',
-        color: 'red'
+        name: 'grass',
+        color: '#26A65B'
       },
       {
-        name: 'green',
-        color: 'green'
+        name: 'cut_grass',
+        color: '#2ECC71'
       },
       {
-        name: 'yellow',
-        color: 'yellow'
+        name: 'wet_grass',
+        color: '#1E824C'
       }
     ]
 
@@ -80,7 +80,7 @@ class Map {
   getTile(m) {
     let x = m.x
     let y = m.y
-    
+
     for(let i = 0; i < this.map.length; i++) {
       for(let j = 0; j < this.map[i].length; j++) {
         let currentTile = this.map[i][j]
