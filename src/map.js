@@ -88,8 +88,7 @@ class Map {
            x <= currentTile.x + currentTile.width &&
            y >= currentTile.y &&
            y <= currentTile.y + currentTile.height) {
-             console.log(currentTile.name)
-             break
+             return currentTile.name
            }
       }
     }

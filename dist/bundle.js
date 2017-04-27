@@ -72,12 +72,14 @@
 
 let Canvas = __webpack_require__(1)
 let Map = __webpack_require__(3)
+let Info = __webpack_require__(5)
 
 class Game {
   constructor() {
     this.canvas = new Canvas()
     this.context = this.canvas.getContext('2d')
     this.map = new Map(this.context)
+    this.info = new Info(this.context)
     this.running = false
     this.input()
   }
@@ -103,6 +105,7 @@ class Game {
 
   render() {
     this.map.draw()
+    this.info.draw()
   }
 
   input() {
@@ -145,10 +148,12 @@ class Game {
       let yPos = e.clientY
 
       let canvasOffset = this.canvas.getBoundingClientRect()
-      this.map.getTile({
+      let currentTile = this.map.getTile({
         x: (xPos - canvasOffset.left) - this.map.x,
         y: (yPos - canvasOffset.top) - this.map.y
       })
+
+      this.info.text = currentTile
     })
   }
 
@@ -278,8 +283,7 @@ class Map {
            x <= currentTile.x + currentTile.width &&
            y >= currentTile.y &&
            y <= currentTile.y + currentTile.height) {
-             console.log(currentTile.name)
-             break
+             return currentTile.name
            }
       }
     }
@@ -310,6 +314,25 @@ class Tile {
 }
 
 module.exports = Tile
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+class Info {
+  constructor(context) {
+    this.context = context
+    this.text = ''
+  }
+
+  draw() {
+    this.context.fillStyle = '#ffffff'
+    this.context.font = "18px Helvetica";
+    this.context.fillText(this.text, this.context.canvas.width - (this.context.measureText(this.text).width + 20), 30)
+  }
+}
+
+module.exports = Info
 
 /***/ })
 /******/ ]);

@@ -1,11 +1,13 @@
 let Canvas = require('./canvas')
 let Map = require('./map')
+let Info = require('./info')
 
 class Game {
   constructor() {
     this.canvas = new Canvas()
     this.context = this.canvas.getContext('2d')
     this.map = new Map(this.context)
+    this.info = new Info(this.context)
     this.running = false
     this.input()
   }
@@ -31,6 +33,7 @@ class Game {
 
   render() {
     this.map.draw()
+    this.info.draw()
   }
 
   input() {
@@ -73,10 +76,12 @@ class Game {
       let yPos = e.clientY
 
       let canvasOffset = this.canvas.getBoundingClientRect()
-      this.map.getTile({
+      let currentTile = this.map.getTile({
         x: (xPos - canvasOffset.left) - this.map.x,
         y: (yPos - canvasOffset.top) - this.map.y
       })
+
+      this.info.text = currentTile
     })
   }
 
