@@ -222,7 +222,7 @@ let Tile = __webpack_require__(5)
 class Map {
   constructor(context) {
     this.context = context
-    this.speed = 3
+    this.speed = 4
     this.x = this.y = 1
     this.vx = this.vy = 0
     this.width = this.height = 0
