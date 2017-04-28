@@ -153,9 +153,7 @@ class Game {
         y: (yPos - canvasOffset.top) - this.map.y
       })
 
-      let text = currentTile.toLowerCase().replace('_', ' ')
-
-      this.info.text = text
+      this.info.text = this.map.currentTile.name
     })
   }
 
@@ -251,6 +249,8 @@ class Map {
       }
     ]
 
+    this.currentTile = {}
+
     this.map = this.createMap()
 
     if(this.map != null && this.map.length > 0) {
@@ -306,15 +306,69 @@ class Map {
     let x = m.x
     let y = m.y
 
-    for(let i = 0; i < this.map.length; i++) {
-      for(let j = 0; j < this.map[i].length; j++) {
-        let currentTile = this.map[i][j]
-        if(x >= currentTile.x - 1 && 
-           x <= currentTile.x + currentTile.width &&
-           y >= currentTile.y - 1 &&
-           y <= currentTile.y + currentTile.height) {
-             return currentTile.name
-           }
+    let map = Object.assign([], this.map)
+    this.searchTiles(map, x, y)
+
+    // for(let i = 0; i < this.map.length; i++) {
+    //   for(let j = 0; j < this.map[i].length; j++) {
+    //     let currentTile = this.map[i][j]
+    //     if(x >= currentTile.x - 1 && 
+    //        x <= currentTile.x + currentTile.width &&
+    //        y >= currentTile.y - 1 &&
+    //        y <= currentTile.y + currentTile.height) {
+    //          return currentTile.name
+    //        }
+    //   }
+    // }
+  }
+
+  getRow(arr, x, y) {
+    if(arr != undefined) {
+      if(arr.length == 1) {
+        if(arr[0] != undefined) {
+          return arr
+        }
+      }
+    }
+
+    let halfLength = Math.ceil(arr.length / 2)
+    
+    let left = arr.splice(0, halfLength)
+    let right = arr.splice(left[left.length], halfLength + 1)
+    let middle = right[0][0]
+
+    if(y < middle.y) {
+      this.searchTiles(left, x, y)
+    }else if(y > middle.y) {
+      this.searchTiles(right, x, y)
+    }
+  }
+
+  getCol(arr, x, y) {
+    if(arr.length == 1) {
+      this.currentTile = arr[0]
+      return arr[0]
+    }
+
+    let halfLength = Math.ceil(arr.length / 2)
+    let left = arr.splice(0, halfLength)
+    let right = arr.splice(left[left.length], halfLength + 1)
+    let middle = right[0]
+    
+    if(x < middle.x) {
+      this.getCol(left, x, y)
+    }else if(x > middle.x) {
+      this.getCol(right, x, y)
+    }
+  }
+
+  searchTiles(arr, x, y) {
+    let row = this.getRow(arr, x, y)
+
+    if(row != undefined) {
+      if(row[0] != undefined) {
+        let newRow = Object.assign([], row[0])
+        this.getCol(newRow, x, y)
       }
     }
   }

@@ -81,9 +81,7 @@ class Game {
         y: (yPos - canvasOffset.top) - this.map.y
       })
 
-      let text = currentTile.toLowerCase().replace('_', ' ')
-
-      this.info.text = text
+      this.info.text = this.map.currentTile.name
     })
   }
 
