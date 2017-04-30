@@ -1,4 +1,5 @@
 let Tile = require('./tile')
+let Perlin = require('./perlin')
 
 class Map {
   constructor(context) {
@@ -11,7 +12,34 @@ class Map {
 
     this.tileWidth = 16
 
-    this.tiles = [
+    this.tiles = {
+      grass: {
+        name: 'grass',
+        color: '#26A65B'
+      },
+      cut_grass: {
+        name: 'cut_grass',
+        color: '#2ECC71'
+      },
+      wet_grass: {
+        name: 'wet_grass',
+        color: '#1E824C'
+      },
+      sand: {
+        name: 'sand',
+        color: '#fbf3ed'
+      },
+      water: {
+        name: 'water',
+        color: '#6ac7dc'
+      },
+      water_edge: {
+        name: 'water_edge',
+        color: '#81CFE0'
+      }
+    }
+
+    this.tilesOld = [
       {
         name: 'grass',
         color: '#26A65B'
@@ -32,6 +60,8 @@ class Map {
 
     this.currentTile = {}
 
+    this.mapData = this.createMapData()
+
     this.map = this.createMap()
 
     if(this.map != null && this.map.length > 0) {
@@ -42,7 +72,61 @@ class Map {
     }
   }
 
+  createMapData() {
+    let mapData = []
+    for(let i = 0; i < this.cols; i++) {
+      let row = []
+      for(let j = 0; j < this.rows; j++) {
+        let value = noise.perlin2(i / 100, j / 100)
+        row.push(value)
+      }
+      mapData.push(row)
+    }
+    return mapData
+  }
+
   createMap() {
+    let map = []
+    for(let i = 0; i < this.mapData.length; i++) {
+      let row = []
+      for(let j = 0; j < this.mapData[i].length; j++) {
+        let val = Math.abs(this.mapData[i][j])
+        if(val < 0.06) {
+          let tile = new Tile(this.context, this.tiles.water.name, this.tiles.water.color)
+          tile.x = j * (tile.width + 1)
+          tile.y = i * (tile.height + 1)
+          row.push(tile)
+        }else if(val < 0.09 && val > 0.05) {
+          let tile = new Tile(this.context, this.tiles.water_edge.name, this.tiles.water_edge.color)
+          tile.x = j * (tile.width + 1)
+          tile.y = i * (tile.height + 1)
+          row.push(tile)
+        }else if(val < 0.12 && val > 0.09) {
+          let tile = new Tile(this.context, this.tiles.sand.name, this.tiles.sand.color)
+          tile.x = j * (tile.width + 1)
+          tile.y = i * (tile.height + 1)
+          row.push(tile)
+        }else {
+          let chance = Math.floor(Math.random() * 3)
+          let tile = {}
+          if(chance == 0) {
+            tile = new Tile(this.context, this.tiles.grass.name, this.tiles.grass.color)
+          }else if( chance == 1) {
+            tile = new Tile(this.context, this.tiles.cut_grass.name, this.tiles.cut_grass.color)
+          }else {
+            tile = new Tile(this.context, this.tiles.wet_grass.name, this.tiles.wet_grass.color)
+          }
+          tile.x = j * (tile.width + 1)
+          tile.y = i * (tile.height + 1)
+          row.push(tile)
+        }
+      }
+      map.push(row)
+    }
+    return map
+  }
+
+  createMapOld() {
     let map = []
     for(let i = 0; i < this.rows; i++) {
       let row = []
