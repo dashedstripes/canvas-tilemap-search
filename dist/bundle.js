@@ -347,11 +347,6 @@ class Map {
           tile.x = j * (tile.width + 1)
           tile.y = i * (tile.height + 1)
           row.push(tile)
-        }else if(val < 0.12 && val > 0.09) {
-          let tile = new Tile(this.context, this.tiles.sand.name, this.tiles.sand.color)
-          tile.x = j * (tile.width + 1)
-          tile.y = i * (tile.height + 1)
-          row.push(tile)
         }else {
           let chance = Math.floor(Math.random() * 3)
           let tile = {}
