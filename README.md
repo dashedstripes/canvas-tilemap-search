@@ -1,7 +1,3 @@
-# 2d Game
+# Canvas Tilemap Search
 
-Building a 2d game engine from scratch
-
-### TODO
-
-- Generate a randomly generated (Perlin Noise)[https://gamedev.stackexchange.com/questions/79049/generating-tile-map] map
+This project demonstrates the [Quicksort algorithm](https://en.wikipedia.org/wiki/Quicksort) by searching tiles on a large map.
