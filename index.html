@@ -3,16 +3,24 @@
 <head>
   <style>
     canvas {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      border: 1px solid #eaeaea;
+      border: 0px;
     }
+    
   </style>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="https://www.adamgray.dev/sass/style.css">
 </head>
 <body>
+  <nav class="container nav">
+    <a href="/" class="nav-home">~/</a>
+    <a href="/now" class="">/now</a>
+  </nav>
+  <div class="container">
+    <h1>Quicksort Tilemap</h1>
+    <p>The map below is randomly generated and consists of cut grass, wet grass, and water tiles. When you hover your cursor over a tile, the quicksort algorithm efficiently looks it up and displays its name in the top right hand corner.</p>
+    <p>You can move around the map with the WASD keys.</p>
+    <div id="root"></div>
+  </div>
   <script src="/dist/bundle.js"></script>
 </body>
 </html>

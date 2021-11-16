@@ -13,7 +13,6 @@ class Game {
   }
 
   start() {
-    console.log("WORKDING")
     console.log('Starting game...')
     this.running = true
     this.loop()

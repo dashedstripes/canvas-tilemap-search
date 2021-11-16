@@ -6,7 +6,10 @@ class Canvas {
     let canvas = document.createElement('canvas')
     canvas.width = this.width
     canvas.height = this.height
-    document.body.appendChild(canvas)
+
+    const root = document.getElementById('root');
+    root.appendChild(canvas)
+
     return canvas
   }
 }
